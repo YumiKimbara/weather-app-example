@@ -35,32 +35,28 @@ const App: React.FC = ({}) => {
   // so I just paste api key here
   const apiKey = "b74f11c310e27f2b0b26642921ffe8ca";
   const geolocationApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${apiKey}`;
-
+  const fetchGeolocation = async () => {
+    try {
+      // show loading icon while fetching data
+      // use then keyword make sure that geolocation api fetch lat and lon
+      const res = await fetch(geolocationApi);
+      const data = await res.json();
+      setGeolocation(data[0]);
+    } catch (err) {
+      console.error(err);
+      // show error message to user
+    }
+  };
   useEffect(() => {
-    const fetchGeolocation = async () => {
-      try {
-        // show loading icon while fetching data
-        // use then keyword make sure that geolocation api fetch lat and lon
-        const res = await fetch(geolocationApi);
-        const data = await res.json();
-        setGeolocation(data[0]);
-      } catch (err) {
-        console.error(err);
-        // show error message to user
-      }
-    };
-    fetchGeolocation();
+    if (cityName?.length) fetchGeolocation();
   }, [cityName]);
 
-  const weatherApi = useMemo(() => {
-    return `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation?.lat}&lon=${geolocation?.lon}&appid=${apiKey}`;
-  }, [geolocation]);
+  const createWeatherEndPoint = (geolocation: geolocationTypes) => `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation?.lat}&lon=${geolocation?.lon}&appid=${apiKey}`;
 
   // axiosを知っているけど今はインストールの時間がないからと説明一言入れる。
   useEffect(() => {
     if (!geolocation) return;
-
-    fetch(weatherApi)
+    fetch(createWeatherEndPoint(geolocation))
       .then((res) => res.json())
       .then((data) => setWeatherInfo(data))
       .catch((err) => console.error(err));
