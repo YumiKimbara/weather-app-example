@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Weather from "./components/Weather";
 
 interface geolocationTypes {
@@ -8,7 +8,7 @@ interface geolocationTypes {
   lon: number;
 }
 
-type Weather = {
+type WeatherProps = {
   description: string;
   icon: string;
   id: number;
@@ -22,7 +22,7 @@ type Temp = {
 
 export type WeatherTypes = {
   name: string;
-  weather: Weather[];
+  weather: WeatherProps[];
   main: Temp;
 };
 
@@ -31,9 +31,8 @@ const App: React.FC = ({}) => {
   const [weatherInfo, setWeatherInfo] = useState<null | WeatherTypes>(null);
   const [cityName, setCityName] = useState<string>("Vancouver");
 
-  // this service somehow doesn't allow me to create .env file
-  // so I just paste api key here
-  const API_KEY = process.env.WEATHER_API_KEY
+  const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+  
   const geolocationApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${API_KEY}`;
   const fetchGeolocation = async () => {
     try {
@@ -52,7 +51,6 @@ const App: React.FC = ({}) => {
   }, [cityName]);
 
   const createWeatherEndPoint = (geolocation: geolocationTypes) => `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation?.lat}&lon=${geolocation?.lon}&appid=${API_KEY}`;
-
   // axiosを知っているけど今はインストールの時間がないからと説明一言入れる。
   useEffect(() => {
     if (!geolocation) return;
