@@ -33,7 +33,7 @@ const App: React.FC = ({}) => {
 
   // this service somehow doesn't allow me to create .env file
   // so I just paste api key here
-  const apiKey = "b74f11c310e27f2b0b26642921ffe8ca";
+  const API_KEY = process.env.WEATHER_API_KEY
   const geolocationApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${apiKey}`;
   const fetchGeolocation = async () => {
     try {
