@@ -34,7 +34,7 @@ const App: React.FC = ({}) => {
   // this service somehow doesn't allow me to create .env file
   // so I just paste api key here
   const API_KEY = process.env.WEATHER_API_KEY
-  const geolocationApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${apiKey}`;
+  const geolocationApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${API_KEY}`;
   const fetchGeolocation = async () => {
     try {
       // show loading icon while fetching data
@@ -51,7 +51,7 @@ const App: React.FC = ({}) => {
     if (cityName?.length) fetchGeolocation();
   }, [cityName]);
 
-  const createWeatherEndPoint = (geolocation: geolocationTypes) => `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation?.lat}&lon=${geolocation?.lon}&appid=${apiKey}`;
+  const createWeatherEndPoint = (geolocation: geolocationTypes) => `https://api.openweathermap.org/data/2.5/weather?lat=${geolocation?.lat}&lon=${geolocation?.lon}&appid=${API_KEY}`;
 
   // axiosを知っているけど今はインストールの時間がないからと説明一言入れる。
   useEffect(() => {
