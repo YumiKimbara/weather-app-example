@@ -20,11 +20,13 @@ const Weather: React.FC<ComponentProps> = ({ weather, setCityName }) => {
   if (!weather) return null;
 
   return (
-    <Grid container justifyContent="center" spacing={2}>
+    <Grid container justifyContent="center" spacing={2} marginTop={10}>
       <Grid container xs={12} justifyContent="center" direction="row">
         <form
           onSubmit={(event) => {
             event.preventDefault();
+            // should calling submit event here for better UX on Enter keyboard after filling the form. 
+            setCityName(value);
           }}>
           <Grid item>
             <TextField
@@ -38,11 +40,11 @@ const Weather: React.FC<ComponentProps> = ({ weather, setCityName }) => {
           </Grid>
           <Grid item>
             <Button
+              type="submit" // type "submit" will make this button as primary submit on "Enter" keyboard event
+              style={{ marginTop: 10, width: '100%' }}
               variant="contained"
-              onClick={() => {
-                setCityName(value);
-              }}>
-              search
+              >
+              Search
             </Button>
           </Grid>
         </form>
@@ -50,9 +52,9 @@ const Weather: React.FC<ComponentProps> = ({ weather, setCityName }) => {
       <Grid item xs={8}>
         <Card>
           <CardContent>
-            <p>{weather.name}</p>
-            <p>{weather.weather[0].main}</p>
-            <p>{weather.main.temp}</p>
+            <p><b>City name:</b> {weather.name}</p>
+            <p><b>Main:</b> {weather.weather[0].main}</p>
+            <p><b>Temp:</b> {weather.main.temp}</p>
           </CardContent>
         </Card>
       </Grid>
